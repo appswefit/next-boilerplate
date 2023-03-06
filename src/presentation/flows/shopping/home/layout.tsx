@@ -1,12 +1,10 @@
 import { IHttpFetchError } from '@/infrastructure/http/HttpFetcher';
 import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
-import { Header } from '@/presentation/components/Header';
 import { Loading } from '@/presentation/components/Loading';
 import { PageHead } from '@/presentation/components/PageHead';
-import { PageWrapper } from '@/presentation/components/PageWrapper';
 import { Product } from '@/presentation/flows/shopping/home/components/Product';
 import { ProductList } from '@/presentation/flows/shopping/home/components/ProductList';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 export interface ShoppingHomePageLayoutProps {
   products: IProduct[] | undefined;
@@ -50,8 +48,7 @@ export default function ShoppingHomePageLayout({
   return (
     <>
       <PageHead title="WeMovies | Home" description="Página inicial" />
-      <Header totalCartValue={cart.length} />
-      <PageWrapper>{renderBody()}</PageWrapper>
+      {renderBody()}
     </>
   );
 }

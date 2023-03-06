@@ -8,18 +8,17 @@ import { useCart } from '@/providers/Cart';
 
 import { Cart, CartItens, Logo, MyCart, Wrapper } from './styles';
 
-export interface HeaderProps {
-  totalCartValue: number;
-}
+export interface HeaderProps {}
 
-export function Header({ totalCartValue }: HeaderProps) {
+export function Header({}: HeaderProps) {
+  const { cart } = useCart();
   return (
     <Wrapper>
       <Logo href={shoppingRoutes.home.path}>WeMovies</Logo>
       <Cart>
         <span>
           <MyCart>Meu Carrinho</MyCart>
-          <CartItens> {totalCartValue} itens</CartItens>
+          <CartItens> {cart.length} itens</CartItens>
         </span>
         <Link href={shoppingRoutes.cart.path}>
           <Image src={bagSvg} alt="" width={30} height={26} />

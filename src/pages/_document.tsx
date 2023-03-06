@@ -1,4 +1,3 @@
-import { setCookie } from 'cookies-next';
 import Document, {
   DocumentContext,
   Head,
@@ -8,7 +7,7 @@ import Document, {
 } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-export default class MyDocument extends Document {
+export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;

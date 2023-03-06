@@ -1,13 +1,22 @@
+import ShoppingLayout from '@/presentation/flows/shopping/layout';
 import shoppingRoutes from '@/presentation/flows/shopping/routes';
+import { ReactElement, ReactNode } from 'react';
 
 import { useCart } from '@/providers/Cart';
 
-export default function CartPage() {
-  const { cart, totalCartValue, deleteProductInCart } = useCart();
+import { NextPageWithLayout } from '../_app';
+
+const CartPage: NextPageWithLayout = () => {
+  const { cart, deleteProductInCart } = useCart();
 
   return shoppingRoutes.cart.element({
     cart,
-    totalCartValue,
     deleteProductInCart,
   });
-}
+};
+
+CartPage.getLayout = function getLayout(page: ReactElement) {
+  return <ShoppingLayout>{page}</ShoppingLayout>;
+};
+
+export default CartPage;
