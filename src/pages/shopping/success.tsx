@@ -7,13 +7,7 @@ import { useCart } from '@/providers/Cart';
 import type { NextPageWithLayout } from '../_app';
 
 const SuccessPage: NextPageWithLayout = () => {
-  const { cleanCart, cart } = useCart();
-
-  useEffect(() => {
-    cleanCart();
-  }, [cleanCart]);
-
-  return shoppingRoutes.success.element({ cart });
+  return shoppingRoutes.success.element({});
 };
 
 SuccessPage.getLayout = function getLayout(page: ReactElement) {

@@ -7,16 +7,11 @@ import { useCart } from '@/providers/Cart';
 import { NextPageWithLayout } from '../_app';
 
 const CartPage: NextPageWithLayout = () => {
-  const { cart, deleteProductInCart } = useCart();
-
-  return shoppingRoutes.cart.element({
-    cart,
-    deleteProductInCart,
-  });
+  return shoppingRoutes.cart.element({});
 };
 
 CartPage.getLayout = function getLayout(page: ReactElement) {
-  return <ShoppingLayout>{page}</ShoppingLayout>;
+  return shoppingRoutes.cart.getBaseLayout(page);
 };
 
 export default CartPage;

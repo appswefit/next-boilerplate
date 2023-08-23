@@ -10,24 +10,11 @@ import { useCart } from '@/providers/Cart';
 import type { NextPageWithLayout } from '../_app';
 
 const ShoppingHomePage: NextPageWithLayout = () => {
-  const { products, error, isLoading } = useFetchProducts();
-  const { cart, addProductInCart } = useCart();
-
-  useEffect(() => {
-    setCookie(COOKIE_APP_SESSION_TOKEN_KEY, 'session-token-foo');
-  }, []);
-
-  return shoppingRoutes.home.element({
-    products,
-    cart,
-    error,
-    isLoading,
-    addProductInCart,
-  });
+  return shoppingRoutes.home.element({});
 };
 
 ShoppingHomePage.getLayout = function getLayout(page: ReactElement) {
-  return <ShoppingLayout>{page}</ShoppingLayout>;
+  return shoppingRoutes.home.getBaseLayout(page);
 };
 
 export default ShoppingHomePage;

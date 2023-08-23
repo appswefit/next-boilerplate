@@ -1,25 +1,33 @@
-import CartPageLayout, { CartPageLayoutProps } from './cart/layout';
-import ShoppingHomePageLayout, {
-  ShoppingHomePageLayoutProps,
-} from './home/layout';
-import SuccessPageLayout, { SuccessPageLayoutProps } from './success/layout';
+import { RouteObjectWithBaseLayout } from '@/presentation/types/route';
+import { ReactElement } from 'react';
 
-const shoppingRoutes = {
+import CartPageLayout from './cart/layout';
+import ShoppingHomePageLayout from './home/layout';
+import SuccessPageLayout from './success/layout';
+
+interface ShoppingRoutes {
+  home: RouteObjectWithBaseLayout;
+  cart: RouteObjectWithBaseLayout;
+  success: RouteObjectWithBaseLayout;
+}
+
+const shoppingRoutes: ShoppingRoutes = {
   home: {
     path: '/shopping',
-    element: (props: ShoppingHomePageLayoutProps) => (
-      <ShoppingHomePageLayout {...props} />
-    ),
+    element: () => <ShoppingHomePageLayout />,
+    getBaseLayout: (page: ReactElement) =>
+      ShoppingHomePageLayout.getBaseLayout(page),
   },
   cart: {
     path: '/shopping/cart',
-    element: (props: CartPageLayoutProps) => <CartPageLayout {...props} />,
+    element: () => <CartPageLayout />,
+    getBaseLayout: (page: ReactElement) => CartPageLayout.getBaseLayout(page),
   },
   success: {
     path: '/shopping/success',
-    element: (props: SuccessPageLayoutProps) => (
-      <SuccessPageLayout {...props} />
-    ),
+    element: () => <SuccessPageLayout />,
+    getBaseLayout: (page: ReactElement) =>
+      SuccessPageLayout.getBaseLayout(page),
   },
 };
 export default shoppingRoutes;

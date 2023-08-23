@@ -3,7 +3,11 @@ import emptyCartSvg from '@/presentation/assets/images/empty-cart.svg';
 import { FeedbackPage } from '@/presentation/components/FeedbackPage';
 import { PageHead } from '@/presentation/components/PageHead';
 import { Cart } from '@/presentation/flows/shopping/cart/components/Cart';
+import { ReactElement } from 'react';
 
+import { useCart } from '@/providers/Cart';
+
+import ShoppingLayout from '../layout';
 import shoppingRoutes from '../routes';
 
 export interface CartPageLayoutProps {
@@ -11,10 +15,8 @@ export interface CartPageLayoutProps {
   deleteProductInCart: (id: number) => void;
 }
 
-export default function CartPageLayout({
-  cart,
-  deleteProductInCart,
-}: CartPageLayoutProps) {
+export default function CartPageLayout() {
+  const { cart, deleteProductInCart } = useCart();
   const hasItemsInCart = cart?.length > 0;
   return (
     <>
@@ -41,3 +43,7 @@ export default function CartPageLayout({
     </>
   );
 }
+
+CartPageLayout.getBaseLayout = function getLayout(page: ReactElement) {
+  return <ShoppingLayout>{page}</ShoppingLayout>;
+};

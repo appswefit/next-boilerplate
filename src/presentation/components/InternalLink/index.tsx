@@ -1,6 +1,6 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import * as S from "./styles";
+import * as S from './styles';
 
 interface InternalLinkProps {
   href: string;

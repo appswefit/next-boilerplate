@@ -1,7 +1,9 @@
 import successSvg from '@/presentation/assets/images/success.svg';
 import { FeedbackPage } from '@/presentation/components/FeedbackPage';
 import { PageHead } from '@/presentation/components/PageHead';
+import { ReactElement } from 'react';
 
+import ShoppingLayout from '../layout';
 import shoppingRoutes from '../routes';
 
 export interface SuccessPageLayoutProps {}
@@ -25,3 +27,7 @@ export default function SuccessPageLayout({}: SuccessPageLayoutProps) {
     </>
   );
 }
+
+SuccessPageLayout.getBaseLayout = function getLayout(page: ReactElement) {
+  return <ShoppingLayout>{page}</ShoppingLayout>;
+};

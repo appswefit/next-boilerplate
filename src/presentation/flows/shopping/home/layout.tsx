@@ -1,10 +1,17 @@
+import { useFetchProducts } from '@/infrastructure/hooks/products/useFetchProducts';
 import { IHttpFetchError } from '@/infrastructure/http/HttpFetcher';
 import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
 import { Loading } from '@/presentation/components/Loading';
 import { PageHead } from '@/presentation/components/PageHead';
 import { Product } from '@/presentation/flows/shopping/home/components/Product';
 import { ProductList } from '@/presentation/flows/shopping/home/components/ProductList';
-import { useCallback } from 'react';
+import { COOKIE_APP_SESSION_TOKEN_KEY } from '@/utils/middleware-helper';
+import { setCookie } from 'cookies-next';
+import { ReactElement, useCallback, useEffect } from 'react';
+
+import { useCart } from '@/providers/Cart';
+
+import ShoppingLayout from '../layout';
 
 export interface ShoppingHomePageLayoutProps {
   products: IProduct[] | undefined;
@@ -14,13 +21,14 @@ export interface ShoppingHomePageLayoutProps {
   addProductInCart: (product: IProduct) => void;
 }
 
-export default function ShoppingHomePageLayout({
-  products,
-  cart,
-  isLoading,
-  error,
-  addProductInCart,
-}: ShoppingHomePageLayoutProps) {
+export default function ShoppingHomePageLayout() {
+  const { products, error, isLoading } = useFetchProducts();
+  const { cart, addProductInCart } = useCart();
+
+  useEffect(() => {
+    setCookie(COOKIE_APP_SESSION_TOKEN_KEY, 'session-token-foo');
+  }, []);
+
   const renderBody = useCallback(() => {
     if (isLoading) return <Loading />;
 
@@ -52,3 +60,7 @@ export default function ShoppingHomePageLayout({
     </>
   );
 }
+
+ShoppingHomePageLayout.getBaseLayout = function getLayout(page: ReactElement) {
+  return <ShoppingLayout>{page}</ShoppingLayout>;
+};
