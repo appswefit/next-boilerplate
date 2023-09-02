@@ -1,4 +1,4 @@
-import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
+import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
 
 import { CartItemDesktop } from '../CartItemDesktop';
 import { CartItemMobile } from '../CartItemMobile';

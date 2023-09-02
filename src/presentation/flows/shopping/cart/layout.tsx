@@ -1,4 +1,4 @@
-import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
+import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
 import emptyCartSvg from '@/presentation/assets/images/empty-cart.svg';
 import { FeedbackPage } from '@/presentation/components/FeedbackPage';
 import { PageHead } from '@/presentation/components/PageHead';

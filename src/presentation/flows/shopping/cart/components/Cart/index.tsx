@@ -1,4 +1,4 @@
-import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
+import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
 import { formatCurrency } from '@/utils/format-currency';
 
 import { InternalLink } from '../../../../../components/InternalLink';

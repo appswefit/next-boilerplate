@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-import { HttpStatusCode } from './infrastructure/http/HttpFetcher';
+import { HttpStatusCode } from './infrastructure/http/core/HttpError';
 import {
   NEXT_API_PATH_REGEX,
   createBffHeader,
@@ -17,7 +17,7 @@ export function middleware(req: NextRequest) {
     if (isSameOriginRequest(req)) {
       return NextResponse.json(
         { message: 'Unauthorized' },
-        { status: HttpStatusCode.unauthorized },
+        { status: HttpStatusCode.UNAUTHORIZED },
       );
     }
 

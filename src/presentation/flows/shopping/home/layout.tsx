@@ -1,42 +1,51 @@
-import { useFetchProducts } from '@/infrastructure/hooks/products/useFetchProducts';
-import { IHttpFetchError } from '@/infrastructure/http/HttpFetcher';
-import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
+import {
+  IProduct,
+  IProductListFilter,
+} from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
 import { Loading } from '@/presentation/components/Loading';
 import { PageHead } from '@/presentation/components/PageHead';
 import { Product } from '@/presentation/flows/shopping/home/components/Product';
 import { ProductList } from '@/presentation/flows/shopping/home/components/ProductList';
-import { COOKIE_APP_SESSION_TOKEN_KEY } from '@/utils/middleware-helper';
-import { setCookie } from 'cookies-next';
-import { ReactElement, useCallback, useEffect } from 'react';
-
-import { useCart } from '@/providers/Cart';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import ShoppingLayout from '../layout';
+import useHomeController from './hooks/useHomeController';
 
 export interface ShoppingHomePageLayoutProps {
   products: IProduct[] | undefined;
   cart: IProduct[];
   isLoading: boolean;
-  error: IHttpFetchError | undefined;
+  error: any;
   addProductInCart: (product: IProduct) => void;
 }
 
+const INITIAL_PAGE_LIMIT = 10;
+
 export default function ShoppingHomePageLayout() {
-  const { products, error, isLoading } = useFetchProducts();
-  const { cart, addProductInCart } = useCart();
+  const { handleProductFilter, productListRequest, cart, addProductInCart } =
+    useHomeController();
 
   useEffect(() => {
-    setCookie(COOKIE_APP_SESSION_TOKEN_KEY, 'session-token-foo');
-  }, []);
+    const initialFilter: IProductListFilter = {
+      searchTerm: null,
+      limit: INITIAL_PAGE_LIMIT,
+      offset: 0,
+    };
+    handleProductFilter(initialFilter);
+  }, [handleProductFilter]);
 
   const renderBody = useCallback(() => {
+    const isLoading = productListRequest?.isLoading;
+    const productList = productListRequest?.data?.body?.content;
+    const productListErrorMessage = productListRequest?.error?.body?.message;
+
     if (isLoading) return <Loading />;
 
-    if (error) return <div>{error.message}</div>;
+    if (productListErrorMessage) return <div>{productListErrorMessage}</div>;
 
     return (
       <ProductList>
-        {products?.map((product: IProduct) => {
+        {productList?.map((product: IProduct) => {
           const hasProductInCart = cart.some(
             (productInCart: IProduct) => productInCart.id === product.id,
           );
@@ -46,12 +55,19 @@ export default function ShoppingHomePageLayout() {
               product={product}
               hasProductInCart={hasProductInCart}
               addProductInCart={addProductInCart}
+              // addProductInCart={() =>
+              //   handleProductFilter({
+              //     searchTerm: '',
+              //     limit: INITIAL_PAGE_LIMIT,
+              //     offset: 0,
+              //   })
+              // }
             />
           );
         })}
       </ProductList>
     );
-  }, [products, cart, isLoading, error, addProductInCart]);
+  }, [productListRequest, cart, addProductInCart]);
 
   return (
     <>

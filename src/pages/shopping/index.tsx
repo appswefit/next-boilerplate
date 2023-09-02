@@ -1,11 +1,5 @@
-import { useFetchProducts } from '@/infrastructure/hooks/products/useFetchProducts';
-import ShoppingLayout from '@/presentation/flows/shopping/layout';
 import shoppingRoutes from '@/presentation/flows/shopping/routes';
-import { COOKIE_APP_SESSION_TOKEN_KEY } from '@/utils/middleware-helper';
-import { setCookie } from 'cookies-next';
-import { ReactElement, useEffect } from 'react';
-
-import { useCart } from '@/providers/Cart';
+import { ReactElement } from 'react';
 
 import type { NextPageWithLayout } from '../_app';
 

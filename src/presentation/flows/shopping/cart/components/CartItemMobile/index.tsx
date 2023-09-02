@@ -1,4 +1,4 @@
-import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
+import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
 import deleteIconSvg from '@/presentation/assets/images/delete-icon.svg';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
@@ -25,10 +25,10 @@ export function CartItemMobile({
   product,
   deleteProductInCart,
 }: CartItemMobileProps) {
-  const { id, title, price, image } = product;
+  const { id, title, price, imageUrl } = product;
   return (
     <Wrapper>
-      <StyledImage src={image} alt={title} width={64} height={82} />
+      <StyledImage src={imageUrl} alt={title} width={64} height={82} />
       <InfosWrapper>
         <InfosHeader>
           <Title>{title}</Title>

@@ -1,4 +1,4 @@
-import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
+import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
 import deleteIconSvg from '@/presentation/assets/images/delete-icon.svg';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
@@ -23,11 +23,11 @@ export function CartItemDesktop({
   product,
   deleteProductInCart,
 }: CartItemDesktopProps) {
-  const { id, title, price, image } = product;
+  const { id, title, price, imageUrl } = product;
   return (
     <Wrapper>
       <td>
-        <StyledImage src={image} alt={title} width={89} height={114} />
+        <StyledImage src={imageUrl} alt={title} width={89} height={114} />
         <TitleAndPriceWrapper>
           <Title>{title}</Title>
           <Price>{formatCurrency(price)}</Price>

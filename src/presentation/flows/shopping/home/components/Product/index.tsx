@@ -1,4 +1,4 @@
-import { IProduct } from '@/infrastructure/services/ProductService/dtos/FetchProductsDTO';
+import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
 import cartSvg from '@/presentation/assets/images/cart.svg';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
@@ -18,7 +18,12 @@ export function Product({
 }: ProductProps) {
   return (
     <Wrapper>
-      <Image src={product.image} alt={product.title} width={147} height={188} />
+      <Image
+        src={product.imageUrl}
+        alt={product.title}
+        width={147}
+        height={188}
+      />
       <Title>{product.title}</Title>
       <Price>{formatCurrency(product.price)}</Price>
       <Button
