@@ -6,9 +6,15 @@
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "importOrder": [
-    "^@/infrastructure/(.)$",
-    "^@/providers/(.*)$",
-    "^@/presentation/(.)$",
+    "^@/types/(.)$",
+    "^@/app/(.*)$",
+    "^@/components/(.)$",
+    "^@/context/(.)$",
+    "^@/flows/(.)$",
+    "^@/hook/(.)$",
+    "^@/infra/(.)$",
+    "^@/lib/(.)$",
+    "^@/utils/(.)$",
     "^[./]"
   ]
 }
