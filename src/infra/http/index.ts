@@ -1,33 +1,54 @@
-import getServerCookies from './getServerCookies';
-import { NextResponse } from 'next/server';
-import setServerCookies from './setServerCookie';
+import {
+  HttpError,
+  HttpStatusCode,
+} from '@/infra/http/core/HttpError';
+import {
+  IHttpFetcher,
+  IHttpResponse,
+} from '@/infra/http/core/IHttpFetcher';
 
-export default class HttpClient {
-  private readonly isServer = process.browser ? false : true;
+type ErrorResponseInterceptor<D> = (error: HttpError<D>) => HttpError<D>;
 
-  private baseUrl: string | undefined;
+type FetcherConfig<T, D> = {
+  baseUrl: string;
+  customHeader?: Record<string, string>;
+  requestInterceptor?: (config: RequestInit) => RequestInit;
+  successResponseInterceptor?: (
+    response: Response,
+  ) => Promise<T | Response>;
+  errorResponseInterceptor?: ErrorResponseInterceptor<D>;
+};
 
-  constructor(baseUrl?: string) {
-    if (!this.isServer) {
-      this.baseUrl = `${window.location.origin}/api`;
-    }
+export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
+  private readonly baseUrl: string;
+  private customHeader?: Record<string, string>;
+  private errorMessage?: string;
+  private requestInterceptor?: (config: RequestInit) => RequestInit;
+  private successResponseInterceptor?: (
+    response: Response,
+  ) => Promise<T | Response>;
+  private errorResponseInterceptor?: ErrorResponseInterceptor<D>;
 
-    if (baseUrl) {
-      this.baseUrl = baseUrl;
-    }
+  constructor(config: FetcherConfig<T, D>) {
+    this.baseUrl = config.baseUrl;
+    this.customHeader = config.customHeader;
+    this.requestInterceptor = config.requestInterceptor;
+    this.successResponseInterceptor = config.successResponseInterceptor;
+    this.errorResponseInterceptor = config.errorResponseInterceptor;
   }
 
-  private handleAuth(response: Response) {
-    if (response.status !== 401) return;
 
-    if (!this.isServer) {
-      window.location.replace('/login');
-      document.cookie = '';
-      return;
-    }
+  private createErrorInterceptor(interceptor?: ErrorResponseInterceptor<D>) {
+    return async (error: HttpError<D>) => {
+      return Promise.reject(interceptor ? interceptor(error) : error);
+    };
+  }
 
-    setServerCookies('X-DrenApps-Auth', '');
-    NextResponse.redirect(`${this.baseUrl}/login`);
+  private async createHttpError(response: Response): Promise<HttpError<D>> {
+    const data = await response.json();
+    const statusCode = response.status as HttpStatusCode;
+
+    return new HttpError(data.message ?? '', statusCode, data);
   }
 
   private makeUrl(endpoint: string, queryParams?: Record<string, any>) {
@@ -40,126 +61,128 @@ export default class HttpClient {
     return url;
   }
 
-  private async makeDefaultRequestOption(
-    isFile?: boolean,
-  ): Promise<RequestInit> {
-    const defaultRequestOption: RequestInit = {
+  public async get<T = unknown, D = unknown>(
+    url: string,
+    queryParams: D,
+    config?: RequestInit,
+    errorMessage?: string,
+  ): Promise<IHttpResponse<T>> {
+    this.errorMessage = errorMessage;
+    const fullUrl = this.makeUrl(url, queryParams as {});
+
+    const options: RequestInit = {
+      method: 'GET',
       headers: {
-        ...(!isFile && { 'Content-type': 'application/json' }),
+        ...this.customHeader,
+        ...(config?.headers || {}),
       },
+      ...config,
     };
 
-    if (this.isServer) {
-      return {
-        ...defaultRequestOption,
-        headers: {
-          ...defaultRequestOption.headers,
-          Cookie: await getServerCookies(),
-        },
-      };
+    const request = this.requestInterceptor
+      ? this.requestInterceptor(options)
+      : options;
+
+    try {
+      const response = await fetch(fullUrl, request);
+
+      if (response.ok) {
+        const responseBody = this.successResponseInterceptor
+          ? await this.successResponseInterceptor(response)
+          : await response.json();
+
+        return {
+          statusCode: response.status,
+          body: responseBody,
+        };
+      } else {
+        throw await this.createHttpError(response);
+      }
+    } catch (error) {
+      throw error;
     }
-
-    return defaultRequestOption;
   }
 
-  public async get(endpoint: string, queryParams?: Record<string, any>) {
-    const url = this.makeUrl(endpoint, queryParams);
+  public async post<T = unknown, R = unknown>(
+    url: string,
+    data?: R,
+    config?: RequestInit,
+    errorMessage?: string,
+  ): Promise<IHttpResponse<T>> {
+    this.errorMessage = errorMessage;
 
-    const options = await this.makeDefaultRequestOption();
+    const fullUrl = this.makeUrl(url);
 
-    const response = await fetch(url, options);
-
-    this.handleAuth(response);
-
-    return response;
-  }
-
-  public async post<B = unknown>(
-    endpoint: string,
-    body: B,
-    queryParams?: Record<string, any>,
-  ) {
-    const url = this.makeUrl(endpoint, queryParams);
-
-    const options = await this.makeDefaultRequestOption();
-
-    const response = await fetch(url, {
-      ...options,
+    const response = await fetch(fullUrl, {
+      ...data,
       method: 'POST',
-      body: JSON.stringify(body),
     });
 
-    this.handleAuth(response);
-
-    return response;
+    return {
+      statusCode: response.status,
+      body: await response.json(),
+    };
   }
 
-  public async patch<B = unknown>(
-    endpoint: string,
-    body: B,
-    queryParams?: Record<string, any>,
-  ) {
-    const url = this.makeUrl(endpoint, queryParams);
-    const options = await this.makeDefaultRequestOption();
+  public async put<T = unknown, R = unknown>(
+    url: string,
+    data?: R,
+    config?: RequestInit,
+    errorMessage?: string,
+  ): Promise<IHttpResponse<T>> {
+    this.errorMessage = errorMessage;
 
-    const response = await fetch(url, {
-      ...options,
-      method: 'PATCH',
-      body: JSON.stringify(body),
-    });
+    const fullUrl = this.makeUrl(url);
 
-    this.handleAuth(response);
-
-    return response;
-  }
-
-  public async put<B = unknown>(
-    endpoint: string,
-    body: B,
-    queryParams?: Record<string, any>,
-  ) {
-    const url = this.makeUrl(endpoint, queryParams);
-    const options = await this.makeDefaultRequestOption();
-
-    const response = await fetch(url, {
-      ...options,
+    const response = await fetch(fullUrl, {
+      ...data,
       method: 'PUT',
-      body: JSON.stringify(body),
     });
 
-    this.handleAuth(response);
-
-    return response;
+    return {
+      statusCode: response.status,
+      body: await response.json(),
+    };
   }
 
-  public async delete(endpoint: string, queryParams?: Record<string, any>) {
-    const url = this.makeUrl(endpoint, queryParams);
+  public async patch<T = unknown, R = unknown>(
+    url: string,
+    data?: R,
+    config?: RequestInit,
+    errorMessage?: string,
+  ): Promise<IHttpResponse<T>> {
+    this.errorMessage = errorMessage;
 
-    const options = await this.makeDefaultRequestOption();
+    const fullUrl = this.makeUrl(url);
 
-    const response = await fetch(url, {
-      ...options,
+    const response = await fetch(fullUrl, {
+      ...data,
+      method: 'PATCH',
+    });
+
+    return {
+      statusCode: response.status,
+      body: await response.json(),
+    };
+  }
+
+  public async delete<T = unknown>(
+    url: string,
+    config?: RequestInit,
+    errorMessage?: string,
+  ): Promise<IHttpResponse<T>> {
+    this.errorMessage = errorMessage;
+
+    const fullUrl = this.makeUrl(url);
+
+    const response = await fetch(fullUrl, {
+      ...config,
       method: 'DELETE',
     });
 
-    this.handleAuth(response);
-
-    return response;
-  }
-
-  public async upload(endpoint: string, body: any) {
-    const url = this.makeUrl(endpoint);
-
-    const options = await this.makeDefaultRequestOption(true);
-
-    const response = await fetch(url, {
-      ...options,
-      method: 'POST',
-      body,
-    });
-
-    this.handleAuth(response);
-
-    return response;
+    return {
+      statusCode: response.status,
+      body: await response.json(),
+    };
   }
 }

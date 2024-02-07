@@ -2,7 +2,6 @@ import addIconSvg from '@/presentation/assets/images/add-icon.svg';
 import removeIconSvg from '@/presentation/assets/images/remove-icon.svg';
 import Image from 'next/image';
 
-import { Wrapper } from './styles';
 
 interface CounterProps {
   productId: number;
@@ -10,10 +9,10 @@ interface CounterProps {
 
 export function Counter({ productId }: CounterProps) {
   return (
-    <Wrapper>
+    <div className="flex">
       <Image src={removeIconSvg} alt="" width={18} height={18} />
-      <input type="text" defaultValue={1} />
+      <input className="w-59 mx-11 px-12 py-3.5 border border-lightGray rounded-[theme.border.radius]" type="text" defaultValue={1} />
       <Image src={addIconSvg} alt="" width={18} height={18} />
-    </Wrapper>
+    </div>
   );
 }

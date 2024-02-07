@@ -1,20 +1,9 @@
-import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
+import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import deleteIconSvg from '@/presentation/assets/images/delete-icon.svg';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
 
 import { Counter } from '../Counter';
-import {
-  InfosFooter,
-  InfosHeader,
-  InfosWrapper,
-  Price,
-  PriceAndDeleteWrapper,
-  StyledImage,
-  Subtotal,
-  Title,
-  Wrapper,
-} from './styles';
 
 interface CartItemMobileProps {
   product: IProduct;
@@ -27,30 +16,33 @@ export function CartItemMobile({
 }: CartItemMobileProps) {
   const { id, title, price, imageUrl } = product;
   return (
-    <Wrapper>
-      <StyledImage src={imageUrl} alt={title} width={64} height={82} />
-      <InfosWrapper>
-        <InfosHeader>
-          <Title>{title}</Title>
-          <PriceAndDeleteWrapper>
-            <Price>{formatCurrency(price)}</Price>
+    <div className="flex mb-32">
+      <Image className="h-82 w-64 mr-16" src={imageUrl} alt={title} width={64} height={82} />
+
+      <div className="flex flex-col flex-1">
+        <div className="mb-16 flex items-center justify-between">
+          <h3 className="text-small font-xbold leading-19 text-primary">{title}</h3>
+          <div className="flex">
+            <p className="text-medium font-xbold leading-22">{formatCurrency(price)}</p>
             <Image
+              className="ml-16 cursor-pointer"
               src={deleteIconSvg}
               alt=""
               onClick={() => deleteProductInCart(id)}
               width={18}
               height={18}
             />
-          </PriceAndDeleteWrapper>
-        </InfosHeader>
-        <InfosFooter>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
           <Counter productId={id} />
           <div>
-            <Subtotal>SUBTOTAL</Subtotal>
-            <Price>{formatCurrency(price)}</Price>
+            <div className="text-xsmall font-bold leading-16 text-gray">SUBTOTAL</div>
+            <p className="text-medium font-xbold leading-22">{formatCurrency(price)}</p>
           </div>
-        </InfosFooter>
-      </InfosWrapper>
-    </Wrapper>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 import successSvg from '@/presentation/assets/images/success.svg';
-import { FeedbackPage } from '@/presentation/components/FeedbackPage';
-import { PageHead } from '@/presentation/components/PageHead';
+import { FeedbackPage } from '@/components/FeedbackPage';
+import { PageHead } from '@/components/PageHead';
 import { ReactElement } from 'react';
 
 import ShoppingLayout from '../layout';

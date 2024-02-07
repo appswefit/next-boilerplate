@@ -1,11 +1,13 @@
-import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
+'use client'
+
+import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import emptyCartSvg from '@/presentation/assets/images/empty-cart.svg';
-import { FeedbackPage } from '@/presentation/components/FeedbackPage';
-import { PageHead } from '@/presentation/components/PageHead';
-import { Cart } from '@/presentation/flows/shopping/cart/components/Cart';
+import { FeedbackPage } from '@/components/FeedbackPage';
+import { PageHead } from '@/components/PageHead';
+import { Cart } from '@/flows/shopping/cart/components/Cart';
 import { ReactElement } from 'react';
 
-import { useCart } from '@/providers/Cart';
+import { useCart } from '@/context/Cart';
 
 import ShoppingLayout from '../layout';
 import shoppingRoutes from '../routes';

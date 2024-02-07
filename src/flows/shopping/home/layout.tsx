@@ -1,12 +1,14 @@
+'use client'
+
+import { Loading } from '@/components/Loading';
+import { PageHead } from '@/components/PageHead';
+import { Product } from '@/flows/shopping/home/components/Product';
+import { ProductList } from '@/flows/shopping/home/components/ProductList';
 import {
   IProduct,
   IProductListFilter,
-} from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
-import { Loading } from '@/presentation/components/Loading';
-import { PageHead } from '@/presentation/components/PageHead';
-import { Product } from '@/presentation/flows/shopping/home/components/Product';
-import { ProductList } from '@/presentation/flows/shopping/home/components/ProductList';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+} from '@/hooks/product/dtos/GetProductListDTO';
+import { ReactElement, useCallback, useEffect } from 'react';
 
 import ShoppingLayout from '../layout';
 import useHomeController from './hooks/useHomeController';

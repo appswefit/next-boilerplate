@@ -1,7 +1,7 @@
-import { Header } from '@/presentation/components/Header';
-import { PageWrapper } from '@/presentation/components/PageWrapper';
+import { Header } from '@/components/Header';
+import { PageWrapper } from '@/components/PageWrapper';
 
-import { CartProvider } from '@/providers/Cart';
+import { CartProvider } from '@/context/Cart';
 
 export default function ShoppingLayout({ children }: any) {
   return (

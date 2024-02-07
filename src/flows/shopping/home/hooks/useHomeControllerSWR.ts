@@ -1,8 +1,8 @@
-import { IProductListFilter } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
-import useGetProductListSWR from '@/infrastructure/hooks/swr/product/useProductServiceSWR';
+import { IProductListFilter } from '@/hooks/product/dtos/GetProductListDTO';
+import useGetProductListSWR from '@/hooks/swr/product/useProductServiceSWR';
 import { useCallback, useRef } from 'react';
 
-import { useCart } from '@/providers/Cart';
+import { useCart } from '@/context/Cart';
 
 // TODO: this example of SWR Setup is currently in development (not finished).
 export default function useHomeControllerSWR() {

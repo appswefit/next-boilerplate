@@ -1,13 +1,15 @@
+'use client'
+
 import {
   IProductListFilter,
   ProductListRequestData,
-} from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
-import useProductService from '@/infrastructure/hooks/product/useProductService';
-import { HttpError } from '@/infrastructure/http/core/HttpError';
-import { IBffResponseBodyError } from '@/infrastructure/http/factory/types';
+} from '@/hooks/product/dtos/GetProductListDTO';
+import useProductService from '@/hooks/product/useProductService';
+import { HttpError } from '@/infra/http/core/HttpError';
+import { IBffResponseBodyError } from '@/infra/http/factory/types';
 import { useCallback, useState } from 'react';
 
-import { useCart } from '@/providers/Cart';
+import { useCart } from '@/context/Cart';
 
 export default function useHomeController() {
   const { cart, addProductInCart } = useCart();

@@ -1,18 +1,10 @@
-import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
+import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import deleteIconSvg from '@/presentation/assets/images/delete-icon.svg';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
 
-import { useCart } from '@/providers/Cart';
 
 import { Counter } from '../Counter';
-import {
-  Price,
-  StyledImage,
-  Title,
-  TitleAndPriceWrapper,
-  Wrapper,
-} from './styles';
 
 interface CartItemDesktopProps {
   product: IProduct;
@@ -25,19 +17,21 @@ export function CartItemDesktop({
 }: CartItemDesktopProps) {
   const { id, title, price, imageUrl } = product;
   return (
-    <Wrapper>
-      <td>
-        <StyledImage src={imageUrl} alt={title} width={89} height={114} />
-        <TitleAndPriceWrapper>
-          <Title>{title}</Title>
-          <Price>{formatCurrency(price)}</Price>
-        </TitleAndPriceWrapper>
+    <tr className="border-b border-gray-400">
+      <td className="flex items-center">
+        <div className="mr-52">
+          <Image className="h-114 w-89" src={imageUrl} alt={title} width={89} height={114} />
+        </div>
+        <div>
+          <h3 className="mb-8 text-small font-xbold leading-19 text-primary">{title}</h3>
+          <p className="text-medium font-xbold leading-22">{formatCurrency(price)}</p>
+        </div>
       </td>
       <td>
         <Counter productId={id} />
       </td>
       <td>
-        <Price>{formatCurrency(price)}</Price>
+        <p className="text-medium font-xbold leading-22">{formatCurrency(price)}</p>
       </td>
       <td>
         <Image
@@ -48,6 +42,6 @@ export function CartItemDesktop({
           height={18}
         />
       </td>
-    </Wrapper>
+    </tr>
   );
 }
