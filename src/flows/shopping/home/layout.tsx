@@ -1,17 +1,16 @@
-'use client'
+'use client';
 
 import { Loading } from '@/components/Loading';
 import { PageHead } from '@/components/PageHead';
 import { Product } from '@/flows/shopping/home/components/Product';
 import { ProductList } from '@/flows/shopping/home/components/ProductList';
-import {
-  IProduct,
-  IProductListFilter,
-} from '@/hooks/product/dtos/GetProductListDTO';
+import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import { ReactElement, useCallback, useEffect } from 'react';
 
 import ShoppingLayout from '../layout';
-import useHomeController from './hooks/useHomeController';
+// import useHomeController from './hooks/useHomeController';
+import useHomeControllerReactQuery from './hooks/useHomeControllerReactQuery';
+import { initialFilter } from './constants';
 
 export interface ShoppingHomePageLayoutProps {
   products: IProduct[] | undefined;
@@ -21,18 +20,13 @@ export interface ShoppingHomePageLayoutProps {
   addProductInCart: (product: IProduct) => void;
 }
 
-const INITIAL_PAGE_LIMIT = 10;
-
 export default function ShoppingHomePageLayout() {
+  // const { handleProductFilter, productListRequest, cart, addProductInCart } =
+  //   useHomeController();
   const { handleProductFilter, productListRequest, cart, addProductInCart } =
-    useHomeController();
+    useHomeControllerReactQuery(initialFilter);
 
   useEffect(() => {
-    const initialFilter: IProductListFilter = {
-      searchTerm: null,
-      limit: INITIAL_PAGE_LIMIT,
-      offset: 0,
-    };
     handleProductFilter(initialFilter);
   }, [handleProductFilter]);
 

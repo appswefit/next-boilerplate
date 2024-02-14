@@ -9,10 +9,7 @@ import {
   IGetProductListResponseDTO,
   IProductListFilter,
 } from '../../product/dtos/GetProductListDTO';
-
-const Routes = {
-  PRODUCTS: '/products',
-};
+import Routes from '@/infra/http/routes';
 
 // TODO: this example of SWR Setup is currently in development (not finished).
 export default function useGetProductListSWR(

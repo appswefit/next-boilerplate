@@ -6,10 +6,7 @@ import {
   IGetProductListResponseDTO,
   IProductListFilter,
 } from './dtos/GetProductListDTO';
-
-const Routes = {
-  PRODUCTS: '/products',
-};
+import Routes from '@/infra/http/routes';
 
 export default function useProductService() {
   const getProductList = useCallback(
