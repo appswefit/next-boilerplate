@@ -4,6 +4,7 @@ import { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 
 import { ThemeProvider } from '@/context/theme-provider';
+import { ReactQueryProvider } from '@/context/react-query-provider';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -15,19 +16,15 @@ type AppPropsWithLayout = AppProps & {
 
 export const metadata: Metadata = {
   title: 'WeMovies',
-  description: "Site de e-commerce de filmes" 
-}
+  description: 'Site de e-commerce de filmes',
+};
 
-function App({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function App({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-br">
       <body className="min-h-screen">
         <ThemeProvider>
-          {children}
+          <ReactQueryProvider>{children}</ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>
