@@ -6,6 +6,8 @@
     "dev": "next dev",
     "dev:server": "json-server -p 5001 mock-server/server.json",
     "dev:start": "yarn dev & yarn dev:server",
+    "test": "yarn playwright test",
+    "test:ui": "yarn playwright test --ui",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

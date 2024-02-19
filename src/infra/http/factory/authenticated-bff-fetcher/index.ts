@@ -1,11 +1,11 @@
-import Fetcher from '@/infra/http/index';
 import {
   HttpError,
   HttpStatusCode,
 } from '@/infra/http/core/HttpError';
 import { IHttpResponse } from '@/infra/http/core/IHttpFetcher';
-import { BFF_API_URL } from '@/infra/http/factory/constants';
+import { BFF_INTERNAL_URL } from '@/infra/http/factory/constants';
 import { IBffResponseBodyError } from '@/infra/http/factory/types';
+import Fetcher from '@/infra/http/index';
 
 import {
   AUTHORIZATION_HEADER_KEY,
@@ -33,10 +33,11 @@ const makeAuthenticatedBffFetcher = () => {
   const sessionToken = localStorage.getItem(SESSION_TOKEN_STORAGE_KEY) ?? '';
   const subscriptionKey = localStorage.getItem(BFF_API_SUBSCRIPTION_KEY) ?? '';
   const config = {
-    baseUrl: BFF_API_URL ?? '',
+    baseUrl: 'http://localhost:3000',
     customHeader: createCustomHeader(sessionToken, subscriptionKey),
     errorResponseInterceptor,
   };
+
   return new Fetcher<IHttpResponse, IBffResponseBodyError>(config);
 };
 

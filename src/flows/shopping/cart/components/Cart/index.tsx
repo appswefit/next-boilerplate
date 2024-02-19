@@ -13,12 +13,12 @@ interface CartProps {
 
 export function Cart({ cart, totalCartValue, deleteProductInCart }: CartProps) {
   return (
-    <div className="w-full max-w-940 mx-auto p-16 flex flex-col bg-white rounded-[theme.border.radius]">
+    <div className="w-full max-w-[940px] h-full mx-auto p-4 flex flex-col bg-white rounded-2xl">
       <CartContent cart={cart} deleteProductInCart={deleteProductInCart} />
-      <div className="pt-21 flex flex-col border-t border-gray-400 md:flex-row-reverse md:justify-between">
-        <div className="mb-16 md:mb-0 md:order-2">
-          <p className="text-small font-xbold leading-19 uppercase text-gray-400">Total</p>
-          <strong className="w-130 text-xxlarge font-xbold leading-33 text-primary text-center">{formatCurrency(totalCartValue)}</strong>
+      <div className="pt-5 flex flex-col border-t border-gray md:flex-row md:justify-between">
+        <div className="flex items-center mb-4 md:mb-0 md:order-2">
+          <p className="text-sm font-bold leading-5 uppercase text-gray">Total</p>
+          <strong className="w-[130px] text-2xl font-bold leading-8 text-primary text-center">{formatCurrency(totalCartValue)}</strong>
         </div>
         <InternalLink
           href={shoppingRoutes.success.path}

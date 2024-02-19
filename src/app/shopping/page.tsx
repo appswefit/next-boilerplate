@@ -1,14 +1,14 @@
-import shoppingRoutes from '@/flows/shopping/routes';
-import { ReactElement } from 'react';
+import { Metadata } from 'next';
 
-import type { NextPageWithLayout } from '../_app';
+import ShoppingHomePageLayout from '@/flows/shopping/home/layout';
 
-const ShoppingHomePage: NextPageWithLayout = () => {
-  return shoppingRoutes.home.element({});
-};
+export const metadata: Metadata = {
+  title: 'WeMovies | Home',
+  description: "Página inicial",
+}
 
-ShoppingHomePage.getLayout = function getLayout(page: ReactElement) {
-  return shoppingRoutes.home.getBaseLayout(page);
+function ShoppingHomePage() {
+  return <ShoppingHomePageLayout/>;
 };
 
 export default ShoppingHomePage;

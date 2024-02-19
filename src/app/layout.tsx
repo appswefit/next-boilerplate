@@ -1,33 +1,34 @@
-// import '@/presentation/styles/globalStyles.css';
-import { Metadata, NextPage } from 'next';
-import { AppProps } from 'next/app';
-import { ReactElement, ReactNode } from 'react';
-
+import { Header } from '@/components/Header';
+import { PageWrapper } from '@/components/PageWrapper';
+import { CartProvider } from '@/context/Cart';
 import { ThemeProvider } from '@/context/theme-provider';
-
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
+import { Metadata, Viewport } from 'next';
+import './global.css';
 
 export const metadata: Metadata = {
   title: 'WeMovies',
-  description: "Site de e-commerce de filmes" 
+  description: "Site de e-commerce de filmes",
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
+
 function App({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br">
-      <body className="min-h-screen">
+    <html suppressHydrationWarning lang="pt-br">
+      <body className="min-h-screen bg-primary">
         <ThemeProvider>
-          {children}
+          <CartProvider>
+            <Header />
+            <PageWrapper>{children}</PageWrapper>
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>

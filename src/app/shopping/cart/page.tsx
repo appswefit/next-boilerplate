@@ -1,14 +1,18 @@
-import shoppingRoutes from '@/flows/shopping/routes';
-import { ReactElement } from 'react';
 
-import { NextPageWithLayout } from '../../_app';
+import { Metadata } from 'next';
+import { ReactNode } from 'react';
 
-const CartPage: NextPageWithLayout = () => {
-  return shoppingRoutes.cart.element({});
-};
+export const metadata: Metadata = {
+  title: 'WeMovies | Carrinho',
+  description: "Carrinho de produtos",
+}
 
-CartPage.getLayout = function getLayout(page: ReactElement) {
-  return shoppingRoutes.cart.getBaseLayout(page);
+const CartPage = ({
+  children
+}: {
+  children: ReactNode;
+}) => {
+  return <>{children}</>;
 };
 
 export default CartPage;

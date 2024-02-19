@@ -11,7 +11,7 @@ interface IProductListFilter {
 
 interface IProduct {
   id: number;
-  imageUrl: string;
+  image: string;
   title: string;
   price: number;
 }

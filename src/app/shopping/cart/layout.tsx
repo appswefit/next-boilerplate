@@ -1,16 +1,13 @@
 'use client'
 
+import { FeedbackPage } from '@/components/FeedbackPage';
+import { Cart } from '@/flows/shopping/cart/components/Cart';
 import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import emptyCartSvg from '@/presentation/assets/images/empty-cart.svg';
-import { FeedbackPage } from '@/components/FeedbackPage';
-import { PageHead } from '@/components/PageHead';
-import { Cart } from '@/flows/shopping/cart/components/Cart';
-import { ReactElement } from 'react';
 
 import { useCart } from '@/context/Cart';
 
-import ShoppingLayout from '../layout';
-import shoppingRoutes from '../routes';
+import shoppingRoutes from '@/flows/shopping/routes';
 
 export interface CartPageLayoutProps {
   cart: IProduct[];
@@ -22,10 +19,6 @@ export default function CartPageLayout() {
   const hasItemsInCart = cart?.length > 0;
   return (
     <>
-      <PageHead
-        title="WeMovies | Carrinho"
-        description="Carrinho de produtos"
-      />
       {hasItemsInCart ? (
         <Cart
           cart={cart}
@@ -45,7 +38,3 @@ export default function CartPageLayout() {
     </>
   );
 }
-
-CartPageLayout.getBaseLayout = function getLayout(page: ReactElement) {
-  return <ShoppingLayout>{page}</ShoppingLayout>;
-};

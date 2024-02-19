@@ -15,26 +15,27 @@ export function CartItemDesktop({
   product,
   deleteProductInCart,
 }: CartItemDesktopProps) {
-  const { id, title, price, imageUrl } = product;
+  const { id, title, price, image } = product;
   return (
-    <tr className="border-b border-gray-400">
+    <tr>
       <td className="flex items-center">
-        <div className="mr-52">
-          <Image className="h-114 w-89" src={imageUrl} alt={title} width={89} height={114} />
+        <div className="h-auto mr-12">
+          <Image className="w-[89px] h-[114px]" src={image} alt={title} width={89} height={114} />
         </div>
         <div>
-          <h3 className="mb-8 text-small font-xbold leading-19 text-primary">{title}</h3>
-          <p className="text-medium font-xbold leading-22">{formatCurrency(price)}</p>
+          <h3 className="mb-2 text-sm font-bold leading-5 text-primary">{title}</h3>
+          <p className="text-base text-black font-bold leading-5">{formatCurrency(price)}</p>
         </div>
       </td>
       <td>
         <Counter productId={id} />
       </td>
       <td>
-        <p className="text-medium font-xbold leading-22">{formatCurrency(price)}</p>
+        <p className="text-base text-black font-bold leading-5">{formatCurrency(price)}</p>
       </td>
       <td>
         <Image
+          className="w-[18px] h-[18px]"
           src={deleteIconSvg}
           alt=""
           onClick={() => deleteProductInCart(id)}

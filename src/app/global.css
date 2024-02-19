@@ -5,13 +5,6 @@
 @layer base {
   :root {
     --header-height: 68px;
-    --primary: '#2F2E41';
-    --secondary: '#009EDD';
-    --gray: '#999999';
-    --darkGray: '#333333';
-    --white: '#FFFFFF';
-    --green: '#039B00';
-    --lightGray: '#D9D9D9';
 
     @media screen and (min-width: 1024px) {
       --header-height: 74px;
@@ -28,14 +21,12 @@
   }
 
   html {
-    font-size: 62.5%;
     scroll-behavior: smooth;
   }
 
   html, body, #__next {
     height: 100vh;
     font-family: 'Open Sans', sans-serif;
-    background-color: var(--primary);
   }
 
   button {
@@ -47,16 +38,5 @@
   a {
     text-decoration: none;
     color: var(--white);
-  }
-
-  img {
-    display: block;
-    min-height: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    margin: 0;
-    padding: 0;
   }
 }

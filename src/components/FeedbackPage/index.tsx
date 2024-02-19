@@ -23,11 +23,11 @@ export function FeedbackPage({
   imgHeight,
 }: FeedbackPageProps) {
   return (
-    <div className="h-auto w-full py-64 flex flex-col items-center justify-center bg-white rounded-[theme.border.radius]">
-      <h2 className="mb-32 px-64 text-xlarge font-xbold leading-27 text-center">{title}</h2>
+    <div className="h-fit w-full p-0 pt-4 pb-4 flex flex-col items-center justify-center bg-white rounded-lg">
+      <h2 className="mb-2 px-16 text-2xl text-black font-bold leading-7 text-center">{title}</h2>
       <Image
-        className="mb-32 data-[imgpadding=true]: 0 24px data-[imgpadding=false]: 0"
         data-imgpadding={imgPadding}
+        className={`h-[266px] w-[447px] mb-8 data-[imgpadding=true]:px-6 data-[imgpadding=false]:p-0`}
         src={imageUrl}
         alt={alt}
         width={imgWidth}

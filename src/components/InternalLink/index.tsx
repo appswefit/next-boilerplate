@@ -9,7 +9,7 @@ interface InternalLinkProps {
 export function InternalLink({ href, textLink, onClick }: InternalLinkProps) {
   return (
     <Link href={href}>
-      <p className="h-40 px-60 flex items-center justify-center text-small font-xbold uppercase text-center rounded-[theme.border.radius] bg-secondary" onClick={onClick}>{textLink}</p>
+      <p className="h-10 px-14 flex items-center justify-center text-sm font-bold uppercase text-center rounded-md bg-secondary" onClick={onClick}>{textLink}</p>
     </Link>
   );
 }

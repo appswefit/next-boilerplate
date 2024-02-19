@@ -16,10 +16,12 @@ export default function useProductService() {
     async (
       produtListFilter: IProductListFilter,
     ): Promise<IHttpResponse<IGetProductListResponseDTO>> => {
-      return await makeAuthenticatedBffFetcher().get<
+      const response = await makeAuthenticatedBffFetcher().get<
         IGetProductListResponseDTO,
         IProductListFilter
       >(Routes.PRODUCTS, produtListFilter);
+
+      return response;
     },
     [],
   );

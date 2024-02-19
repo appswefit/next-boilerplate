@@ -10,9 +10,9 @@ interface CounterProps {
 export function Counter({ productId }: CounterProps) {
   return (
     <div className="flex">
-      <Image src={removeIconSvg} alt="" width={18} height={18} />
-      <input className="w-59 mx-11 px-12 py-3.5 border border-lightGray rounded-[theme.border.radius]" type="text" defaultValue={1} />
-      <Image src={addIconSvg} alt="" width={18} height={18} />
+      <Image className="w-[18px] h-[18px]" src={removeIconSvg} alt="" width={18} height={18} />
+      <input className="w-[59px] mx-3 px-3 py-[3.5px] text-black border border-lightGray bg-white rounded-md" type="text" defaultValue={1} />
+      <Image className="w-[18px] h-[18px]" src={addIconSvg} alt="" width={18} height={18} />
     </div>
   );
 }

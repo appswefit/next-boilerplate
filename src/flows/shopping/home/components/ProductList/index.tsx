@@ -6,5 +6,5 @@ interface ProductListProps {
 }
 
 export function ProductList({ children }: ProductListProps) {
-  return <div suppressHydrationWarning className="h-auto w-full grid grid-cols-1 gap-16 sm:grid-cols-3">{children}</div>;
+  return <div className='grid grid-cols-1 h-fit w-full  gap-4 md:grid-cols-3'>{children}</div>;
 }

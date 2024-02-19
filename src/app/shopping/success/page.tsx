@@ -1,15 +1,18 @@
-import ShoppingLayout from '@/flows/shopping/layout';
-import shoppingRoutes from '@/flows/shopping/routes';
-import { ReactElement } from 'react';
 
-import type { NextPageWithLayout } from '../../_app';
+import { Metadata } from 'next';
+import { ReactNode } from 'react';
 
-const SuccessPage: NextPageWithLayout = () => {
-  return shoppingRoutes.success.element({});
-};
+export const metadata: Metadata = {
+  title: 'WeMovies | Success',
+  description: "Página de pagamento realizado",
+}
 
-SuccessPage.getLayout = function getLayout(page: ReactElement) {
-  return <ShoppingLayout>{page}</ShoppingLayout>;
+const SuccessPage = ({
+  children
+}: {
+  children: ReactNode;
+}) => {
+  return <>{children}</>;
 };
 
 export default SuccessPage;

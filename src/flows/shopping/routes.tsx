@@ -1,33 +1,20 @@
-import { RouteObjectWithBaseLayout } from '@/@types/route';
-import { ReactElement } from 'react';
-
-import CartPageLayout from './cart/layout';
-import ShoppingHomePageLayout from './home/layout';
-import SuccessPageLayout from './success/layout';
+import { RouteObject } from '@/@types/route';
 
 interface ShoppingRoutes {
-  home: RouteObjectWithBaseLayout;
-  cart: RouteObjectWithBaseLayout;
-  success: RouteObjectWithBaseLayout;
+  home: RouteObject;
+  cart: RouteObject;
+  success: RouteObject;
 }
 
 const shoppingRoutes: ShoppingRoutes = {
   home: {
     path: '/shopping',
-    element: () => <ShoppingHomePageLayout />,
-    getBaseLayout: (page: ReactElement) =>
-      ShoppingHomePageLayout.getBaseLayout(page),
   },
   cart: {
     path: '/shopping/cart',
-    element: () => <CartPageLayout />,
-    getBaseLayout: (page: ReactElement) => CartPageLayout.getBaseLayout(page),
   },
   success: {
     path: '/shopping/success',
-    element: () => <SuccessPageLayout />,
-    getBaseLayout: (page: ReactElement) =>
-      SuccessPageLayout.getBaseLayout(page),
   },
 };
 export default shoppingRoutes;

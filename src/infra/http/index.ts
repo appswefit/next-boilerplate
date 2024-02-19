@@ -38,10 +38,8 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
   }
 
 
-  private createErrorInterceptor(interceptor?: ErrorResponseInterceptor<D>) {
-    return async (error: HttpError<D>) => {
-      return Promise.reject(interceptor ? interceptor(error) : error);
-    };
+  private createErrorInterceptor(error: HttpError<D>) {
+    return Promise.reject(this.errorResponseInterceptor ? this.errorResponseInterceptor(error) : error);
   }
 
   private async createHttpError(response: Response): Promise<HttpError<D>> {
@@ -68,10 +66,58 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
     errorMessage?: string,
   ): Promise<IHttpResponse<T>> {
     this.errorMessage = errorMessage;
-    const fullUrl = this.makeUrl(url, queryParams as {});
+    const fullUrl = this.makeUrl(url, queryParams as Record<string, any>);
 
     const options: RequestInit = {
       method: 'GET',
+      headers: {
+        ...this.customHeader,
+        ...(config?.headers || {}),
+      },
+      ...config,
+    };
+
+    const request = this.requestInterceptor
+      ? this.requestInterceptor(options)
+      : options;
+
+    try {
+      const response = await fetch(fullUrl, request);
+
+      if (response.ok) {
+        const responseBody = this.successResponseInterceptor
+          ? await this.successResponseInterceptor(response)
+          : await response.json();
+
+        return {
+          statusCode: response.status,
+          body: responseBody.body ? responseBody.body : responseBody,
+        };
+      } else {
+        throw await this.createHttpError(response);
+      }
+    } catch (error) {
+      if (error instanceof HttpError) {
+        throw await this.createErrorInterceptor(error);
+      } else {
+        return Promise.reject(error);
+      }
+    }
+  }
+
+  public async post<T = unknown, R = unknown>(
+    url: string,
+    data?: R,
+    config?: RequestInit,
+    errorMessage?: string,
+  ): Promise<IHttpResponse<T>> {
+    this.errorMessage = errorMessage;
+
+    const fullUrl = this.makeUrl(url);
+
+    const options: RequestInit = {
+      ...data,
+      method: 'POST',
       headers: {
         ...this.customHeader,
         ...(config?.headers || {}),
@@ -99,29 +145,12 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
         throw await this.createHttpError(response);
       }
     } catch (error) {
-      throw error;
+      if (error instanceof HttpError) {
+        throw await this.createErrorInterceptor(error);
+      } else {
+        return Promise.reject(error);
+      }
     }
-  }
-
-  public async post<T = unknown, R = unknown>(
-    url: string,
-    data?: R,
-    config?: RequestInit,
-    errorMessage?: string,
-  ): Promise<IHttpResponse<T>> {
-    this.errorMessage = errorMessage;
-
-    const fullUrl = this.makeUrl(url);
-
-    const response = await fetch(fullUrl, {
-      ...data,
-      method: 'POST',
-    });
-
-    return {
-      statusCode: response.status,
-      body: await response.json(),
-    };
   }
 
   public async put<T = unknown, R = unknown>(
@@ -134,15 +163,42 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
 
     const fullUrl = this.makeUrl(url);
 
-    const response = await fetch(fullUrl, {
+    const options: RequestInit = {
       ...data,
       method: 'PUT',
-    });
-
-    return {
-      statusCode: response.status,
-      body: await response.json(),
+      headers: {
+        ...this.customHeader,
+        ...(config?.headers || {}),
+      },
+      ...config,
     };
+
+    const request = this.requestInterceptor
+      ? this.requestInterceptor(options)
+      : options;
+
+    try {
+      const response = await fetch(fullUrl, request);
+
+      if (response.ok) {
+        const responseBody = this.successResponseInterceptor
+          ? await this.successResponseInterceptor(response)
+          : await response.json();
+
+        return {
+          statusCode: response.status,
+          body: responseBody,
+        };
+      } else {
+        throw await this.createHttpError(response);
+      }
+    } catch (error) {
+      if (error instanceof HttpError) {
+        throw await this.createErrorInterceptor(error);
+      } else {
+        return Promise.reject(error);
+      }
+    }
   }
 
   public async patch<T = unknown, R = unknown>(
@@ -155,15 +211,42 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
 
     const fullUrl = this.makeUrl(url);
 
-    const response = await fetch(fullUrl, {
+    const options: RequestInit = {
       ...data,
       method: 'PATCH',
-    });
-
-    return {
-      statusCode: response.status,
-      body: await response.json(),
+      headers: {
+        ...this.customHeader,
+        ...(config?.headers || {}),
+      },
+      ...config,
     };
+
+    const request = this.requestInterceptor
+      ? this.requestInterceptor(options)
+      : options;
+
+    try {
+      const response = await fetch(fullUrl, request);
+
+      if (response.ok) {
+        const responseBody = this.successResponseInterceptor
+          ? await this.successResponseInterceptor(response)
+          : await response.json();
+
+        return {
+          statusCode: response.status,
+          body: responseBody,
+        };
+      } else {
+        throw await this.createHttpError(response);
+      }
+    } catch (error) {
+      if (error instanceof HttpError) {
+        throw await this.createErrorInterceptor(error);
+      } else {
+        return Promise.reject(error);
+      }
+    }
   }
 
   public async delete<T = unknown>(
@@ -175,14 +258,40 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
 
     const fullUrl = this.makeUrl(url);
 
-    const response = await fetch(fullUrl, {
-      ...config,
+    const options: RequestInit = {
       method: 'DELETE',
-    });
-
-    return {
-      statusCode: response.status,
-      body: await response.json(),
+      headers: {
+        ...this.customHeader,
+        ...(config?.headers || {}),
+      },
+      ...config,
     };
+
+    const request = this.requestInterceptor
+      ? this.requestInterceptor(options)
+      : options;
+
+    try {
+      const response = await fetch(fullUrl, request);
+
+      if (response.ok) {
+        const responseBody = this.successResponseInterceptor
+          ? await this.successResponseInterceptor(response)
+          : await response.json();
+
+        return {
+          statusCode: response.status,
+          body: responseBody,
+        };
+      } else {
+        throw await this.createHttpError(response);
+      }
+    } catch (error) {
+      if (error instanceof HttpError) {
+        throw await this.createErrorInterceptor(error);
+      } else {
+        return Promise.reject(error);
+      }
+    }
   }
 }

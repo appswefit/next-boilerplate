@@ -24,7 +24,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.rewrite(
       new URL(
         pathname.replace(NEXT_API_PATH_REGEX, ''),
-        process.env.NEXT_API_URL,
+        process.env.NEXT_PUBLIC_APP_URL,
       ),
       {
         request: {
