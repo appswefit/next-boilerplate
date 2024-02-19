@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import ShoppingHomePageLayout from '@/flows/shopping/home/layout';
+import ShoppingHomePageLayout from '@/presentation/flows/shopping/home/layout';
 
 export const metadata: Metadata = {
   title: 'WeMovies | Home',

@@ -1,7 +1,7 @@
 import { FeedbackPage } from '@/presentation/components/FeedbackPage';
 import successSvg from '@/presentation/assets/images/success.svg';
 
-import shoppingRoutes from '@/flows/shopping/routes';
+import shoppingRoutes from '@/presentation/flows/shopping/routes';
 
 export interface SuccessPageLayoutProps {}
 

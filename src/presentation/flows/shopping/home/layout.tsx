@@ -1,15 +1,15 @@
 'use client'
 
 import { Loading } from '@/presentation/components/Loading';
-import { Product } from '@/flows/shopping/home/components/Product';
-import { ProductList } from '@/flows/shopping/home/components/ProductList';
+import { Product } from '@/presentation/flows/shopping/home/components/Product';
+import { ProductList } from '@/presentation/flows/shopping/home/components/ProductList';
 import {
   IProduct,
   IProductListFilter,
 } from '@/hooks/product/dtos/GetProductListDTO';
 import { useCallback, useEffect } from 'react';
 
-import useHomeController from '@/flows/shopping/home/hooks/useHomeController';
+import useHomeController from '@/presentation/flows/shopping/home/hooks/useHomeController';
 
 export interface ShoppingHomePageLayoutProps {
   products: IProduct[] | undefined;

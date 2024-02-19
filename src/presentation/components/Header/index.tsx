@@ -1,6 +1,6 @@
 'use client'
 
-import shoppingRoutes from '@/flows/shopping/routes';
+import shoppingRoutes from '@/presentation/flows/shopping/routes';
 import bagSvg from '@/presentation/assets/images/bag.svg';
 import Image from 'next/image';
 import Link from 'next/link';

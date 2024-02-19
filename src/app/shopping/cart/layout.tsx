@@ -1,13 +1,13 @@
 'use client'
 
 import { FeedbackPage } from '@/presentation/components/FeedbackPage';
-import { Cart } from '@/flows/shopping/cart/components/Cart';
+import { Cart } from '@/presentation/flows/shopping/cart/components/Cart';
 import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import emptyCartSvg from '@/presentation/assets/images/empty-cart.svg';
 
 import { useCart } from '@/context/Cart';
 
-import shoppingRoutes from '@/flows/shopping/routes';
+import shoppingRoutes from '@/presentation/flows/shopping/routes';
 
 export interface CartPageLayoutProps {
   cart: IProduct[];
