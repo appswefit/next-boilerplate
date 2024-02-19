@@ -79,7 +79,7 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
     try {
       const response = await fetch(fullUrl, request);
 
-      if (!response.ok) {
+      if (response.ok) {
         const handledResponse = await this.successResponseInterceptor?.(
           response,
         );
@@ -130,23 +130,25 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       const response = await fetch(fullUrl, request);
 
       if (response.ok) {
-        const responseBody = this.successResponseInterceptor
-          ? await this.successResponseInterceptor(response)
+        const handledResponse = await this.successResponseInterceptor?.(
+          response,
+        );
+        const responseJson = handledResponse
+          ? await handledResponse.json()
           : await response.json();
 
         return {
           statusCode: response.status,
-          body: responseBody,
+          body: responseJson,
         };
-      } else {
-        throw await this.createHttpError(response);
       }
+      const error = await this.createHttpError(response);
+      throw error;
     } catch (error) {
       if (error instanceof HttpError) {
         return this.runErrorInterceptor(error);
-      } else {
-        return Promise.reject(error);
       }
+      return Promise.reject(error);
     }
   }
 
@@ -178,23 +180,25 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       const response = await fetch(fullUrl, request);
 
       if (response.ok) {
-        const responseBody = this.successResponseInterceptor
-          ? await this.successResponseInterceptor(response)
+        const handledResponse = await this.successResponseInterceptor?.(
+          response,
+        );
+        const responseJson = handledResponse
+          ? await handledResponse.json()
           : await response.json();
 
         return {
           statusCode: response.status,
-          body: responseBody,
+          body: responseJson,
         };
-      } else {
-        throw await this.createHttpError(response);
       }
+      const error = await this.createHttpError(response);
+      throw error;
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.runErrorInterceptor(error);
-      } else {
-        return Promise.reject(error);
+        return this.runErrorInterceptor(error);
       }
+      return Promise.reject(error);
     }
   }
 
@@ -226,23 +230,25 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       const response = await fetch(fullUrl, request);
 
       if (response.ok) {
-        const responseBody = this.successResponseInterceptor
-          ? await this.successResponseInterceptor(response)
+        const handledResponse = await this.successResponseInterceptor?.(
+          response,
+        );
+        const responseJson = handledResponse
+          ? await handledResponse.json()
           : await response.json();
 
         return {
           statusCode: response.status,
-          body: responseBody,
+          body: responseJson,
         };
-      } else {
-        throw await this.createHttpError(response);
       }
+      const error = await this.createHttpError(response);
+      throw error;
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.runErrorInterceptor(error);
-      } else {
-        return Promise.reject(error);
+        return this.runErrorInterceptor(error);
       }
+      return Promise.reject(error);
     }
   }
 
@@ -272,23 +278,25 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       const response = await fetch(fullUrl, request);
 
       if (response.ok) {
-        const responseBody = this.successResponseInterceptor
-          ? await this.successResponseInterceptor(response)
+        const handledResponse = await this.successResponseInterceptor?.(
+          response,
+        );
+        const responseJson = handledResponse
+          ? await handledResponse.json()
           : await response.json();
 
         return {
           statusCode: response.status,
-          body: responseBody,
+          body: responseJson,
         };
-      } else {
-        throw await this.createHttpError(response);
       }
+      const error = await this.createHttpError(response);
+      throw error;
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.runErrorInterceptor(error);
-      } else {
-        return Promise.reject(error);
+        return this.runErrorInterceptor(error);
       }
+      return Promise.reject(error);
     }
   }
 }

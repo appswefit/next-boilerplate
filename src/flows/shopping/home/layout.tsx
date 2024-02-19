@@ -1,6 +1,6 @@
 'use client'
 
-import { Loading } from '@/components/Loading';
+import { Loading } from '@/presentation/components/Loading';
 import { Product } from '@/flows/shopping/home/components/Product';
 import { ProductList } from '@/flows/shopping/home/components/ProductList';
 import {

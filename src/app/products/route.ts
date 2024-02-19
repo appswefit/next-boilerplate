@@ -13,9 +13,9 @@ export async function POST(request: NextApiRequest) {
       baseUrl: process.env.NEXT_PUBLIC_BFF_API_URL ?? '',
     });
 
-    const response = await fetcher.post('/products', body);
+    const data = await fetcher.post('/products', body);
 
-    return response;
+    return NextResponse.json(data.body);
   } catch (error) {
     if (error instanceof HttpError) {
       return NextResponse.json(error.body, {

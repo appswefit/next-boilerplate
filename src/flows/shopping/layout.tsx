@@ -1,5 +1,5 @@
-import { Header } from '@/components/Header';
-import { PageWrapper } from '@/components/PageWrapper';
+import { Header } from '@/presentation/components/Header';
+import { PageWrapper } from '@/presentation/components/PageWrapper';
 
 import { CartProvider } from '@/context/Cart';
 import { ReactNode } from 'react';

@@ -1,6 +1,6 @@
 'use client'
 
-import { FeedbackPage } from '@/components/FeedbackPage';
+import { FeedbackPage } from '@/presentation/components/FeedbackPage';
 import { Cart } from '@/flows/shopping/cart/components/Cart';
 import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import emptyCartSvg from '@/presentation/assets/images/empty-cart.svg';

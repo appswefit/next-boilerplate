@@ -1,7 +1,7 @@
 import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import { formatCurrency } from '@/utils/format-currency';
 
-import { InternalLink } from '../../../../../components/InternalLink';
+import { InternalLink } from '@/presentation/components/InternalLink';
 import shoppingRoutes from '../../../routes';
 import { CartContent } from '../CartContent';
 
