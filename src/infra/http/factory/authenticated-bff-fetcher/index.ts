@@ -1,7 +1,4 @@
-import {
-  HttpError,
-  HttpStatusCode,
-} from '@/infra/http/core/HttpError';
+import { HttpError, HttpStatusCode } from '@/infra/http/core/HttpError';
 import { IHttpResponse } from '@/infra/http/core/IHttpFetcher';
 import { BFF_INTERNAL_URL } from '@/infra/http/factory/constants';
 import { IBffResponseBodyError } from '@/infra/http/factory/types';

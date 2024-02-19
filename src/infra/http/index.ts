@@ -1,11 +1,5 @@
-import {
-  HttpError,
-  HttpStatusCode,
-} from '@/infra/http/core/HttpError';
-import {
-  IHttpFetcher,
-  IHttpResponse,
-} from '@/infra/http/core/IHttpFetcher';
+import { HttpError, HttpStatusCode } from '@/infra/http/core/HttpError';
+import { IHttpFetcher, IHttpResponse } from '@/infra/http/core/IHttpFetcher';
 
 type ErrorResponseInterceptor<D> = (error: HttpError<D>) => HttpError<D>;
 
@@ -13,9 +7,7 @@ type FetcherConfig<T, D> = {
   baseUrl: string;
   customHeader?: Record<string, string>;
   requestInterceptor?: (config: RequestInit) => RequestInit;
-  successResponseInterceptor?: (
-    response: Response,
-  ) => Promise<T | Response>;
+  successResponseInterceptor?: (response: Response) => Promise<Response>;
   errorResponseInterceptor?: ErrorResponseInterceptor<D>;
 };
 
@@ -26,7 +18,7 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
   private requestInterceptor?: (config: RequestInit) => RequestInit;
   private successResponseInterceptor?: (
     response: Response,
-  ) => Promise<T | Response>;
+  ) => Promise<Response>;
   private errorResponseInterceptor?: ErrorResponseInterceptor<D>;
 
   constructor(config: FetcherConfig<T, D>) {
@@ -37,9 +29,12 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
     this.errorResponseInterceptor = config.errorResponseInterceptor;
   }
 
-
-  private createErrorInterceptor(error: HttpError<D>) {
-    return Promise.reject(this.errorResponseInterceptor ? this.errorResponseInterceptor(error) : error);
+  private runErrorInterceptor(error: HttpError<D>) {
+    return Promise.reject(
+      this.errorResponseInterceptor
+        ? this.errorResponseInterceptor(error)
+        : error,
+    );
   }
 
   private async createHttpError(response: Response): Promise<HttpError<D>> {
@@ -84,24 +79,26 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
     try {
       const response = await fetch(fullUrl, request);
 
-      if (response.ok) {
-        const responseBody = this.successResponseInterceptor
-          ? await this.successResponseInterceptor(response)
+      if (!response.ok) {
+        const handledResponse = await this.successResponseInterceptor?.(
+          response,
+        );
+        const responseJson = handledResponse
+          ? await handledResponse.json()
           : await response.json();
 
         return {
           statusCode: response.status,
-          body: responseBody.body ? responseBody.body : responseBody,
+          body: responseJson,
         };
-      } else {
-        throw await this.createHttpError(response);
       }
+      const error = await this.createHttpError(response);
+      throw error;
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.createErrorInterceptor(error);
-      } else {
-        return Promise.reject(error);
+        return this.runErrorInterceptor(error);
       }
+      return Promise.reject(error);
     }
   }
 
@@ -146,7 +143,7 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       }
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.createErrorInterceptor(error);
+        return this.runErrorInterceptor(error);
       } else {
         return Promise.reject(error);
       }
@@ -194,7 +191,7 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       }
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.createErrorInterceptor(error);
+        throw await this.runErrorInterceptor(error);
       } else {
         return Promise.reject(error);
       }
@@ -242,7 +239,7 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       }
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.createErrorInterceptor(error);
+        throw await this.runErrorInterceptor(error);
       } else {
         return Promise.reject(error);
       }
@@ -288,7 +285,7 @@ export default class Fetcher<T, D> implements IHttpFetcher<RequestInit> {
       }
     } catch (error) {
       if (error instanceof HttpError) {
-        throw await this.createErrorInterceptor(error);
+        throw await this.runErrorInterceptor(error);
       } else {
         return Promise.reject(error);
       }
