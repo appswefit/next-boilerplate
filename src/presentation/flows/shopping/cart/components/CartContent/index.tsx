@@ -1,8 +1,7 @@
-import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
+import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 
 import { CartItemDesktop } from '../CartItemDesktop';
 import { CartItemMobile } from '../CartItemMobile';
-import { CartMobile, Table, Th, Wrapper } from './styles';
 
 interface CartContentProps {
   cart: IProduct[];
@@ -11,8 +10,8 @@ interface CartContentProps {
 
 export function CartContent({ cart, deleteProductInCart }: CartContentProps) {
   return (
-    <Wrapper>
-      <CartMobile>
+    <div className="w-full max-w-[940px] h-full mx-auto p-4 flex flex-col bg-white rounded-xl md:h-auto">
+      <div className="block md:hidden">
         {cart.map(product => (
           <CartItemMobile
             key={product.id}
@@ -20,14 +19,14 @@ export function CartContent({ cart, deleteProductInCart }: CartContentProps) {
             deleteProductInCart={deleteProductInCart}
           />
         ))}
-      </CartMobile>
-      <Table>
+      </div>
+      <table className="hidden md:inline-table">
         <thead>
           <tr>
-            <Th>Produto</Th>
-            <Th>QTD</Th>
-            <Th>SUBTOTAL</Th>
-            <Th></Th>
+            <th className="pb-5 text-gray text-sm font-bold leading-5 text-left uppercase">Produto</th>
+            <th className="pb-5 text-gray text-sm font-bold leading-5 text-left uppercase">QTD</th>
+            <th className="pb-5 text-gray text-sm font-bold leading-5 text-left uppercase">SUBTOTAL</th>
+            <th className="pb-5 text-gray text-sm font-bold leading-5 text-left uppercase"></th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +38,7 @@ export function CartContent({ cart, deleteProductInCart }: CartContentProps) {
             />
           ))}
         </tbody>
-      </Table>
-    </Wrapper>
+      </table>
+    </div>
   );
 }

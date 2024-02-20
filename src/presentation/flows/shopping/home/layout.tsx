@@ -1,15 +1,15 @@
+'use client'
+
+import { Loading } from '@/presentation/components/Loading';
+import { Product } from '@/presentation/flows/shopping/home/components/Product';
+import { ProductList } from '@/presentation/flows/shopping/home/components/ProductList';
 import {
   IProduct,
   IProductListFilter,
-} from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
-import { Loading } from '@/presentation/components/Loading';
-import { PageHead } from '@/presentation/components/PageHead';
-import { Product } from '@/presentation/flows/shopping/home/components/Product';
-import { ProductList } from '@/presentation/flows/shopping/home/components/ProductList';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+} from '@/hooks/product/dtos/GetProductListDTO';
+import { useCallback, useEffect } from 'react';
 
-import ShoppingLayout from '../layout';
-import useHomeController from './hooks/useHomeController';
+import useHomeController from '@/presentation/flows/shopping/home/hooks/useHomeController';
 
 export interface ShoppingHomePageLayoutProps {
   products: IProduct[] | undefined;
@@ -71,12 +71,7 @@ export default function ShoppingHomePageLayout() {
 
   return (
     <>
-      <PageHead title="WeMovies | Home" description="Página inicial" />
       {renderBody()}
     </>
   );
 }
-
-ShoppingHomePageLayout.getBaseLayout = function getLayout(page: ReactElement) {
-  return <ShoppingLayout>{page}</ShoppingLayout>;
-};

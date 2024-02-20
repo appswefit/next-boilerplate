@@ -1,14 +1,18 @@
 {
+  "tabWidth": 2,
+  "useTabs": false,
   "singleQuote": true,
   "trailingComma": "all",
   "arrowParens": "avoid",
   "endOfLine": "auto",
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
+  "semi": true,
   "importOrder": [
-    "^@/infrastructure/(.)$",
-    "^@/presentation/(.)$",
-    "^@/providers/(.*)$",
-    "^[./]"
-  ]
+    "^@/data|domain|infra|main|middlewares/(.*)$",
+    "^@\\/(presentation|i18n)[\\/]?(.*)$",
+    "\\.\\.*/(?!.*\\.styles)",
+    ".*\\.styles",
+    "^@/public/(.*)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

@@ -1,7 +1,5 @@
 import Link from 'next/link';
 
-import * as S from './styles';
-
 interface InternalLinkProps {
   href: string;
   textLink: string;
@@ -11,7 +9,7 @@ interface InternalLinkProps {
 export function InternalLink({ href, textLink, onClick }: InternalLinkProps) {
   return (
     <Link href={href}>
-      <S.TextLink onClick={onClick}>{textLink}</S.TextLink>
+      <p className="h-10 px-14 flex items-center justify-center text-sm font-bold uppercase text-center rounded-md bg-secondary" onClick={onClick}>{textLink}</p>
     </Link>
   );
 }

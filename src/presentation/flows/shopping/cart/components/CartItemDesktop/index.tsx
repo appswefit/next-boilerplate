@@ -1,18 +1,10 @@
-import { IProduct } from '@/infrastructure/hooks/product/dtos/GetProductListDTO';
+import { IProduct } from '@/hooks/product/dtos/GetProductListDTO';
 import deleteIconSvg from '@/presentation/assets/images/delete-icon.svg';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
 
-import { useCart } from '@/providers/Cart';
 
 import { Counter } from '../Counter';
-import {
-  Price,
-  StyledImage,
-  Title,
-  TitleAndPriceWrapper,
-  Wrapper,
-} from './styles';
 
 interface CartItemDesktopProps {
   product: IProduct;
@@ -23,24 +15,27 @@ export function CartItemDesktop({
   product,
   deleteProductInCart,
 }: CartItemDesktopProps) {
-  const { id, title, price, imageUrl } = product;
+  const { id, title, price, image } = product;
   return (
-    <Wrapper>
-      <td>
-        <StyledImage src={imageUrl} alt={title} width={89} height={114} />
-        <TitleAndPriceWrapper>
-          <Title>{title}</Title>
-          <Price>{formatCurrency(price)}</Price>
-        </TitleAndPriceWrapper>
+    <tr>
+      <td className="flex items-center">
+        <div className="h-auto mr-12">
+          <Image className="w-[89px] h-[114px]" src={image} alt={title} width={89} height={114} />
+        </div>
+        <div>
+          <h3 className="mb-2 text-sm font-bold leading-5 text-primary">{title}</h3>
+          <p className="text-base text-black font-bold leading-5">{formatCurrency(price)}</p>
+        </div>
       </td>
       <td>
         <Counter productId={id} />
       </td>
       <td>
-        <Price>{formatCurrency(price)}</Price>
+        <p className="text-base text-black font-bold leading-5">{formatCurrency(price)}</p>
       </td>
       <td>
         <Image
+          className="w-[18px] h-[18px]"
           src={deleteIconSvg}
           alt=""
           onClick={() => deleteProductInCart(id)}
@@ -48,6 +43,6 @@ export function CartItemDesktop({
           height={18}
         />
       </td>
-    </Wrapper>
+    </tr>
   );
 }

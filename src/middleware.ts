@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-import { HttpStatusCode } from './infrastructure/http/core/HttpError';
+import { HttpStatusCode } from './infra/http/core/HttpError';
 import {
   NEXT_API_PATH_REGEX,
   createBffHeader,
@@ -24,7 +24,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.rewrite(
       new URL(
         pathname.replace(NEXT_API_PATH_REGEX, ''),
-        process.env.NEXT_API_URL,
+        process.env.NEXT_PUBLIC_APP_URL,
       ),
       {
         request: {

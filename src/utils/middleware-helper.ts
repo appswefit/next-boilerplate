@@ -22,5 +22,5 @@ export function isNextApiRequest(pathname: string) {
 export function isSameOriginRequest(req: NextRequest) {
   return !req.headers
     .get('referer')
-    ?.includes(process.env.NEXT_APP_URL as string);
+    ?.includes(process.env.NEXT_PUBLIC_APP_URL as string);
 }
